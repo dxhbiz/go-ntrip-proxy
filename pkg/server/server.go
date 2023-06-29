@@ -8,6 +8,7 @@ import (
 	"github.com/dxhbiz/go-ntrip-proxy/pkg/config"
 	"github.com/dxhbiz/go-ntrip-proxy/pkg/kit/exe"
 	"github.com/dxhbiz/go-ntrip-proxy/pkg/kit/log"
+	"github.com/dxhbiz/go-ntrip-proxy/pkg/proxy"
 	"github.com/dxhbiz/go-ntrip-proxy/pkg/version"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
@@ -71,4 +72,6 @@ func Execute() {
 	defer log.Sync()
 
 	log.Infof("%s version: %s", APP_NAME, version.RELEASE)
+
+	proxy.Run()
 }
