@@ -21,6 +21,7 @@ const (
 var (
 	// the path of the configuration file
 	cfgFile = ""
+	help    = false
 	// the path of the application
 	exePath = exe.Path()
 )
@@ -32,8 +33,10 @@ var rootCmd = &cobra.Command{
 }
 
 func init() {
-	// cobra.OnInitialize(initConfig)
-	rootCmd.PersistentFlags().StringVar(&cfgFile, "config", "", "config file (default is $EXE/config/config.json)")
+	rootCmd.CompletionOptions.DisableDefaultCmd = true
+	rootCmd.SetHelpCommand(&cobra.Command{Hidden: true})
+	rootCmd.PersistentFlags().StringVarP(&cfgFile, "config", "c", "", "config file (default is $EXE/config/config.json)")
+	rootCmd.PersistentFlags().BoolVarP(&help, "help", "h", false, "help for "+APP_NAME)
 	rootCmd.AddCommand(versionCmd)
 }
 
@@ -62,6 +65,10 @@ func Execute() {
 	if err := rootCmd.Execute(); err != nil {
 		fmt.Println(err)
 		os.Exit(1)
+	}
+
+	if help {
+		os.Exit(0)
 	}
 
 	initConfig()
